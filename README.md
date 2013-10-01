@@ -1,51 +1,65 @@
-# streamhub-wall
+# streamhub-metrics
 
-streamhub-wall displays StreamHub social feeds as a visually engaging, full-screen tiled Content experience that's great for covering live events, hosting photo contests, and powering social sections of your website.
+streamhub-metrics provides reusable modules for modeling and visualizing metrics from Livefyre StreamHub. For example, a horizontal bar graph showing the Hottest (trending) Collections in a StreamHub Collection.
 
-## Getting Started
+![Example Hot Collections Widget](http://i.imgur.com/I8oOcO2.png)
 
-The quickest way to use streamhub-wall is to use the built version hosted on Livefyre's CDN.
+This repository only provides an interface for Metric objects and reusable Views to visualize them. Specific metrics can be found in other repositories, like [streamhub-hot-collections](https://github.com/gobengo/streamhub-hot-collections).
 
-### Dependencies
+## Usage
 
-streamhub-wall depends on [streamhub-sdk](https://github.com/livefyre/streamhub-sdk). Ensure it's been included in your page.
+### Metric
+`streamhub-metrics/metric`
 
-	<script src="http://cdn.livefyre.com/libs/sdk/v1.1.0-build.212/streamhub-sdk.min.gz.js"></script>
+A metric is only required to have two methods:
 
-Include streamhub-wall too.
+* `getValue()` - Get a Number value for the metric
+* `getLabel()` - Get a String to label the value
 
-	<script src="http://cdn.livefyre.com/libs/apps/Livefyre/streamhub-wall/v1.0.0-build.33/streamhub-wall.min.js"></script>
-	
-Optionally, include some reasonable default CSS rules for StreamHub Content
+Example construction:
 
-    <link rel="stylesheet" href="http://cdn.livefyre.com/libs/sdk/v1.1.0-build.212/streamhub-sdk.gz.css" />
-
-### Usage
-
-1. Require streamhub-sdk and streamhub-wall
-
-        var Hub = Livefyre.require('streamhub-sdk'),
-            WallView = Livefyre.require('streamhub-wall');
+    var Metric = require('streamhub-metrics/metric');
     
-2. Create a WallView, passing the DOMElement to render in
+    var myMetric = new Metric({
+        value: 13,
+        label: 'My Metric'
+    });
 
-        var wallView = new WallView({
-            el: document.getElementById('wall')
-        });
+### MetricViews
+`streamhub-metrics/views/metric-view`
+
+MetricViews are implementations of `streamhub-sdk/view` that can visualize a Metric.
+
+    var MetricView = require('streamhub-metrics/views/metric-view');
     
-3. An empty wall is no fun, so use the SDK to create a StreamManager for a Livefyre Collection
+    var myMetricView = new MetricView({
+        el: document.getElementById('metricView'),
+        metric: myMetric
+    });
 
-        var streamManager = Hub.StreamManager.create.livefyreStreams({
-            network: "labs.fyre.co",
-            siteId: 315833,
-            articleId: 'example'
-        });
+#### HorizontalBarView
+`streamhub-metrics/views/horizontal-bar-view`
+
+A MetricView that shows the metric as a horizontal bar, compared to another value.
+
+![A HorizontalBarView](http://i.imgur.com/3ouTNk5.png)
+
+HorizontalBarViews have an additional method, `getCompareTo()` that should return the maximum value of the horizontal bar.
+
+### MetricListView
+`streamhub-metrics/views/metric-list-view`
+
+MetricListViews are implementations of `streamhub-sdk/views/list-view` that visualize a list of Metrics.
+
+    var MetricListView = require('streamhub-metrics/views/metric-list-view');
     
-4. And bind the streamManager to your wall and start it up
+    var myMetricListView = new MetricListView({
+        el: document.getElementById('myMetricListView')
+    });
 
-        streamManager.bind(wallView).start();
+You can `.add()` a Metric to a MetricListView, and a MetricView will be created for the metric, and it will be added to the list in sorted order. By default, MetricListView will create a `streamhub-metrics/views/horizontal-bar-view` for each Metric.
 
-You now have a Wall! See this all in action on [this jsfiddle](http://jsfiddle.net/59sT9/1/).
+    myMetricListView.add(myMetric);
 
 ## Local Development
 
@@ -53,20 +67,20 @@ Instead of using a built version of streamhub-wall from Livefyre's CDN, you may 
 
 Clone this repo
 
-    git clone https://github.com/Livefyre/streamhub-wall
+    git clone https://github.com/Livefyre/streamhub-metrics
 
 Development dependencies are managed by [npm](https://github.com/isaacs/npm), which you should install first.
 
 With npm installed, install streamhub-wall's dependencies. This will also download [Bower](https://github.com/bower/bower) and use it to install browser dependencies.
 
-    cd streamhub-wall
+    cd streamhub-metrics
     npm install
 
 This repository's package.json includes a helpful script to launch a web server for development
 
     npm start
 
-You can now visit [http://localhost:8080/examples/mediawall](http://localhost:8080/examples/mediawall) to see an example wall loaded via RequireJS.
+You can now visit [http://localhost:8080/examples/main](http://localhost:8080/examples/main) to see an example wall loaded via RequireJS.
 
 # StreamHub
 
