@@ -63,7 +63,7 @@ You can `.add()` a Metric to a MetricListView, and a MetricView will be created 
 
 ## Local Development
 
-Instead of using a built version of streamhub-wall from Livefyre's CDN, you may wish to fork, develop on the repo locally, or include it in your existing JavaScript application.
+You may wish to fork, develop on the repo locally, or include it in your existing JavaScript application.
 
 Clone this repo
 
@@ -71,7 +71,7 @@ Clone this repo
 
 Development dependencies are managed by [npm](https://github.com/isaacs/npm), which you should install first.
 
-With npm installed, install streamhub-wall's dependencies. This will also download [Bower](https://github.com/bower/bower) and use it to install browser dependencies.
+With npm installed, install streamhub-metrics's dependencies. This will also download [Bower](https://github.com/bower/bower) and use it to install browser dependencies.
 
     cd streamhub-metrics
     npm install
@@ -80,7 +80,7 @@ This repository's package.json includes a helpful script to launch a web server 
 
     npm start
 
-You can now visit [http://localhost:8080/examples/main](http://localhost:8080/examples/main) to see an example wall loaded via RequireJS.
+You can now visit [http://localhost:8080/examples/main](http://localhost:8080/examples/main) to see an example loaded via RequireJS.
 
 # StreamHub
 
