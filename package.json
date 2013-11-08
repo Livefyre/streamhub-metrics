@@ -2,7 +2,7 @@
   "name": "streamhub-metrics",
   "description": "Resuable modules for showing metrics from Livefyre StreamHub",
   "author": "Livefyre <support@livefyre.com>",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "devDependencies": {
     "bower": "~1.0.0",
     "http-server": "*",
