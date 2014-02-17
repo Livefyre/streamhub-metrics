@@ -6,7 +6,6 @@ function (MetricView, inherits, HorizontalBarTemplate) {
 
     var HorizontalBarView = function (opts) {
         MetricView.apply(this, arguments);
-        this.render();
         if (opts.compareTo) {
             this.setCompareTo(opts.compareTo);
         }
@@ -16,6 +15,11 @@ function (MetricView, inherits, HorizontalBarTemplate) {
 
     HorizontalBarView.prototype.template = HorizontalBarTemplate;
     HorizontalBarView.prototype.barElSelector = ".hub-metric-bar";
+
+    HorizontalBarView.prototype.render = function() {
+        MetricView.prototype.render.apply(this, arguments);
+        this._setBarWidth();
+    };
 
     HorizontalBarView.prototype._wobble = function (opts) {
         var self = this;
@@ -50,9 +54,11 @@ function (MetricView, inherits, HorizontalBarTemplate) {
 
     HorizontalBarView.prototype._setBarWidth = function (value, compareTo) {
         var $bar = this.$el.find(this.barElSelector);
-        value = value || this.metric.getValue();
-        compareTo = compareTo || this.getCompareTo();
-        $bar.width(100 * (value / compareTo) + '%');
+        if($bar.length > 0) {
+            value = value || this.metric.getValue();
+            compareTo = compareTo || this.getCompareTo();
+            $bar.width(100 * (value / compareTo) + '%');
+        }
     };
 
     return HorizontalBarView;
