@@ -15,7 +15,7 @@ function ($, inherits, ListView, HorizontalBarView) {
     MetricListView.prototype.elClass += ' hub-metric-list';
 
     MetricListView.prototype.comparator = function (a, b) {
-        return b.metric.getValue - a.metric.getValue();
+        return b.metric.getValue() - a.metric.getValue();
     };
 
     MetricListView.prototype.add = function (metric) {
@@ -25,7 +25,6 @@ function ($, inherits, ListView, HorizontalBarView) {
         if (value > this._maxValue) {
             this._setMaxValue(value);
         }
-
         ListView.prototype.add.call(this, barView);
     };
 
