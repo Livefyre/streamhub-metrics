@@ -7,7 +7,7 @@ function (View, inherits, SimpleMetricTemplate) {
     var MetricView = function (opts) {
         opts = opts || {};
         this.metric = opts.metric;
-        View.apply(this, opts);
+        View.call(this, opts);
     };
 
     inherits(MetricView, View);
